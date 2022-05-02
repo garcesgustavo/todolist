@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-var items = ["Buy food","Cook food","Eat food"];
+var items = ["Buy food", "Cook food", "Eat food"];
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
-app.get("/", function(req, res) {
+app.use(express.static("public"));
+app.get("/", function (req, res) {
   var today = new Date();
   var options = {
     weekday: "long",
@@ -22,13 +22,13 @@ app.get("/", function(req, res) {
   });
 });
 
-  app.post("/", function(req, res) {
+app.post("/", function (req, res) {
   var item = req.body.newItem;
   items.push(item);
-    res.redirect("/");
-  });
+  res.redirect("/");
+});
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server is on port 3000")
 
 });
