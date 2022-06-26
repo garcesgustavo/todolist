@@ -10,7 +10,7 @@ app.use(
   })
 );
 app.use(express.static("public"));
-mongoose.connect("mongoDB://localhost:27017/todolistDB", {
+mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
 });
 
@@ -20,10 +20,32 @@ const itemsSchema = {
 
 const Item = mongoose.model("Item", itemsSchema);
 
+const item1 = new Item({
+  name: "buy sugar",
+});
+const item2 = new Item({
+  name: "buy milk",
+});
+const item3 = new Item({
+  name: "buy oil",
+});
+
+const defaultItems = [item1, item2, item3];
+
+Item.insertMany(defaultItems, function (err) {
+  if (err) {
+    console.log("Is an error found");
+  } else {
+    console.log("All ok");
+  }
+});
+
 app.get("/", function (req, res) {
-  res.render("list", {
-    listTitle: "Today",
-    newListItem: items,
+  Item.find({}, function (err, foundItems) {
+    res.render("list", {
+      listTitle: "Today",
+      newListItem: foundItems,
+    });
   });
 });
 
