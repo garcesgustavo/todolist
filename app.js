@@ -21,17 +21,9 @@ const itemsSchema = {
 const Item = mongoose.model("Item", itemsSchema);
 
 app.get("/", function (req, res) {
-  var today = new Date();
-  var options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  };
-  var day = today.toLocaleDateString("es-ES", options);
-
   res.render("list", {
-    kindOfDay: day,
-    addItem: items,
+    listTitle: "Today",
+    newListItem: items,
   });
 });
 
