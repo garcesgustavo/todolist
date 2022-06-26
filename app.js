@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const app = express();
-var items = ["Buy food", "Cook food", "Eat food"];
+
 app.set("view engine", "ejs");
 app.use(
   bodyParser.urlencoded({
@@ -9,6 +10,16 @@ app.use(
   })
 );
 app.use(express.static("public"));
+mongoose.connect("mongoDB://localhost:27017/todolistDB", {
+  useNewUrlParser: true,
+});
+
+const itemsSchema = {
+  name: String,
+};
+
+const Item = mongoose.model("Item", itemsSchema);
+
 app.get("/", function (req, res) {
   var today = new Date();
   var options = {
