@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
+var newItems = [];
 
 app.set("view engine", "ejs");
 app.use(
@@ -53,8 +54,12 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-  var item = req.body.newItem;
-  items.push(item);
+  const itemName = req.body.newItem;
+  const item = new Item({
+    name: itemName,
+  });
+  item.save();
+
   res.redirect("/");
 });
 
